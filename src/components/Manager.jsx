@@ -12,6 +12,8 @@ const Manager = () => {
 
     const [passwordArray, setPasswordArray] = useState([]);
 
+    const [showFormPassword, setShowFormPassword] = useState(false);
+
     useEffect(() => {
         try {
             const passwords = JSON.parse(localStorage.getItem("passwords"));
@@ -35,9 +37,6 @@ const Manager = () => {
         }
     }
 
-    // const savePassword = () => {
-
-    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -65,6 +64,18 @@ const Manager = () => {
         const updatedArray = passwordArray.filter((_, i) => i != index);
         setPasswordArray(updatedArray);
         localStorage.setItem("passwords", JSON.stringify(updatedArray));
+    }
+
+    const handleCopy = (password) => {
+        navigator.clipboard.writeText(password).then(() => (
+            alert('Password copied to clipboard!')
+        )).catch((err) => {
+            console.error('Failed to copy:', err);
+        })
+    }
+
+    const togglePasswordVisibility = () => {
+        setShowFormPassword((prev) =>  (!prev));
     }
     return (
         <>
@@ -100,15 +111,18 @@ const Manager = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                             name="password"
-                            type="password"
+                            type={showFormPassword ? "text" : "password"}
                             placeholder="Password"
                             className="w-full px-3 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                         <span onClick={showPassword}>
                             <img
+                                onClick={togglePasswordVisibility}
                                 ref={imgRef}
-                                src="https://cdn-icons-png.flaticon.com/512/709/709612.png"
-                                alt="Show Password"
+                                src={showFormPassword
+                                    ? "https://cdn-icons-png.flaticon.com/512/2767/2767146.png"
+                                    : "https://cdn-icons-png.flaticon.com/512/709/709612.png"}
+                                alt="toggle visibility"
                                 className="w-5 h-5 absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                             />
                         </span>
@@ -154,7 +168,7 @@ const Manager = () => {
                                         <td className="py-2 px-4">{item.username}</td>
                                         <td className="py-2 px-4">{item.password}</td>
                                         <td>
-                                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded transition-colors text-sm">
+                                            <button onClick={() => handleCopy(item.password)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded transition-colors text-sm">
                                                 Copy
                                             </button>
                                         </td>
