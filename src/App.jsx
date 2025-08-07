@@ -1,6 +1,6 @@
 // import './App.css'
 import Footer from './components/Footer'
-import Manager from './components/Manager'
+import PasswordManager from "./components/PasswordManager"
 import Navbar from './components/Navbar'
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow">
-        <Manager />
+        <PasswordManager />
       </main>
       <Footer />
     </div>
