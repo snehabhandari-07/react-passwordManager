@@ -29,4 +29,8 @@ A simple and secure password manager built with **React** and **Tailwind CSS**. 
 
 ![PassMan](./public/passMan2.jpg)
 
+## Author
+
+- By Sneha
+
 
